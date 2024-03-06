@@ -1,42 +1,52 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>** 새로 추가된 컬렉션 Weak Collections **</title>
-<script>
-	//** Weak Map
-	// => key 는 반드시 참조형(객체형) 이어야함. 
-	let myMap = new WeakMap();
-	
-	// => key 정의
-	const banana={};
-	const apple={};
-	const orange={};
-	// => set
-	myMap.set(banana, "바나나");
-	myMap.set(apple, "애플");
-	myMap.set(orange, "오렌지");
-	
-	// => 열거관련, 크기 관련 속성 없음.
-	/*    Uncaught TypeError: myMap is not iterable
-	for (const [key, value] of myMap) {
-		console.log(`** Weak Map  ${key} = ${value}`);
-	}
-	*/
-	console.log(`** Weak_Map_get = ${myMap.get(orange)}`);
-	console.log(`** Weak_Map_delete = ${myMap.delete(orange)}`);  //true
-	console.log(`** Weak_Map_has = ${myMap.has(orange)}`);   //flase
-	
-	// ** Weak Set
-	// => Weak Map 과 동일한 특성
-	// => add, delete, has 등 지원
-	// => value 도 참조형(객체형) 이어야함.  
-	
-</script>
+	<meta charset="UTF-8">
+	<title>** 새로 추가된 컬렉션 Weak Collections **</title>
+	<script>
+		"use strict"
+		//** Weak Map
+		// => key 는 반드시 참조형(객체형) 이어야함. 
+		// let, const는 변수 선언 이전을 사용 금지 구역으로 설정
+		console.log("***** var test => " + test); // 호이스팅 test : undefined 출력
+		// Uncaught ReferenceError : Cannot access 'lll' before initialization ~
+		console.log("***** let test => " + let); // 호이스팅 test
+		let myMap = new WeakMap();
+		var test = "호이스팅"; // 호이스팅 test
+		let lll = "호이스팅 let Test"; // 호이스팅 test
+		console.log("*****2 var test => " + test); // 호이스팅 test
+		console.log("*****2 let test => " + let); // 호이스팅 test
+		// => key 정의
+		const banana = {};
+		const apple = {};
+		const orange = {};
+		// => set
+		myMap.set(banana, "바나나");
+		myMap.set(apple, "애플");
+		myMap.set(orange, "오렌지");
+
+		// => 열거관련, 크기 관련 속성 없음.
+		/*    Uncaught TypeError: myMap is not iterable
+		for (const [key, value] of myMap) {
+			console.log(`** Weak Map  ${key} = ${value}`);
+		}
+		*/
+		console.log(`** Weak_Map_get = ${myMap.get(orange)}`);
+		console.log(`** Weak_Map_delete = ${myMap.delete(orange)}`);  //true
+		console.log(`** Weak_Map_has = ${myMap.has(orange)}`);   //flase
+
+		// ** Weak Set
+		// => Weak Map 과 동일한 특성
+		// => add, delete, has 등 지원
+		// => value 도 참조형(객체형) 이어야함.  
+
+	</script>
 
 </head>
+
 <body>
-<pre>
+	<pre>
 ** 새로 추가된 컬렉션 Weak Collections **
 
 Map과 Set이 참조하는 객체들은 강하게 연결되어 있습니다. 
@@ -56,4 +66,5 @@ Map과 Set이 참조하는 객체들은 강하게 연결되어 있습니다.
 </pre>
 
 </body>
+
 </html>
