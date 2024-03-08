@@ -10,9 +10,9 @@ const { render } = ReactDOM
 
 const data = [
   {
-    "name": "Baked Salmon",
+    name: "Baked Salmon",
     "ingredients": [
-      { "name": "연어", "amount": 500, "measurement": "그램" },
+      { name: "연어", "amount": 500, "measurement": "그램" },
       { "name": "잣", "amount": 1, "measurement": "컵" },
       { "name": "버터 상추", "amount": 2, "measurement": "컵" },
       { "name": "옐로 스쿼시(Yellow Squash, 호박의 한 종류)", "amount": 1, "measurement": "개" },
@@ -31,7 +31,7 @@ const data = [
   {
     "name": "생선 타코",
     "ingredients": [
-      { "name": "흰살생선", "amount": 500, "measurement": "그램" },
+      { name: "흰살생선", "amount": 500, "measurement": "그램" },
       { "name": "치즈", "amount": 1, "measurement": "컵" },
       { "name": "아이스버그 상추", "amount": 2, "measurement": "컵" },
       { "name": "토마토", "amount": 2, "measurement": "개(큰것)"},
