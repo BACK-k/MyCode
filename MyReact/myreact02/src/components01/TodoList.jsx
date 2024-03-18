@@ -23,10 +23,10 @@
 
 // ======================================================================
 import "./TodoList.css";
-import TodoItem  from "./TodoItem";
-import { useState, useMemo } from "react";
+import TodoItem from "./TodoItem";
+import { useState, useMemo, useEffect } from "react";
 
-const TodoList = ({todo, onUpdate, onDelete}) => {
+const TodoList = ({ todo, onUpdate, onDelete }) => {
 
   // => 검색어처리 위한 state 변수 와 onChangeSearch 추가
   const [search, setSearch] = useState("");
@@ -37,26 +37,26 @@ const TodoList = ({todo, onUpdate, onDelete}) => {
   // => 검색어가 있으면 filter 적용, 대소문자 구별하지 않도록 함
   //    ( 삼항식 으로 )
   const getSearchResult = () => {
-    return search === "" ? todo 
-            : todo.filter( (it) => it.content.toLowerCase().includes( search.toLowerCase()));
+    return search === "" ? todo
+      : todo.filter((it) => it.content.toLowerCase().includes(search.toLowerCase()));
   }
   // ------------------------------------------------
   // ** 분석 기능 추가
   // 1) 분석 함수 추가
   // => 배열 todo 의 아이템 총갯수, 완료갯수, 미완료갯수 를 객체에 담아 return
- 
+
   const analyzeTodo = () => {
     console.log("** analyzeTodo 호출!! **");
-    const totalCount=todo.length;
+    const totalCount = todo.length;
     // => 배열 todo의 isDone 의 값이 true 인 item의 갯수 
-    const doneCount= todo.filter( (it) => it.isDone ).length;
-    const notDoneCount= totalCount - doneCount;
-    return { totalCount, doneCount, notDoneCount } ;
+    const doneCount = todo.filter((it) => it.isDone).length;
+    const notDoneCount = totalCount - doneCount;
+    return { totalCount, doneCount, notDoneCount };
   }; //analyzeTodo
- 
+
   // 2) 분석 함수 호출
   // => analyzeTodo() 호출하고 return 값을 구조분해 할당
-  //const {totalCount, doneCount, notDoneCount} = analyzeTodo();
+  // const { totalCount, doneCount, notDoneCount } = analyzeTodo();
 
   // 3) 분석 결과
   // => analyzeTodo() 는 todo 에 저장 아이템이 많아질수록
@@ -88,7 +88,11 @@ const TodoList = ({todo, onUpdate, onDelete}) => {
   // => Code2.
   //    위 analyzeTodo() 를 useMemo 의 콜백함수로 사용하고,
   //    useMemo 의 return 값을 바로 할당.
-  const {totalCount, doneCount, notDoneCount} = useMemo(analyzeTodo, [todo]);
+  // todo 배열이 바뀔 때만 렌더링되며, analyzeTodo가 호출됨
+  // 검색어를 입력할 땐 호출되지 않음
+  const { totalCount, doneCount, notDoneCount } = useMemo(analyzeTodo, [todo]);
+
+// useEffect 는 일반적 전역변수를 콜백함수 내에서 사용 불가
 
   return (
     <div className="TodoList">
@@ -98,10 +102,10 @@ const TodoList = ({todo, onUpdate, onDelete}) => {
         <div>* 완료된 일정: {doneCount}</div>
         <div>* 미완료 일정: {notDoneCount}</div>
       </div>
-      <input  className="searchbar" 
-              value={search}
-              onChange={onChangeSearch}
-              placeholder="검색어를 입력하세요 ~" />
+      <input className="searchbar"
+        value={search}
+        onChange={onChangeSearch}
+        placeholder="검색어를 입력하세요 ~" />
       <div className="list_wrapper" >
         {/* 1) 배열 전달받기 전 출력용  
         <TodoItem />
@@ -118,9 +122,9 @@ const TodoList = ({todo, onUpdate, onDelete}) => {
 
         {/* 3) 배열(todo) 에  filter() 적용  
             => TodoItem 로 전달하기전 filter() 처리하고 , 처리된 배열을 map() 으로 전달 */}
-        { getSearchResult().map( (it) => ( <TodoItem key={it.id}  {...it} 
-                                                    onUpdate={onUpdate} 
-                                                    onDelete={onDelete} /> ) )}
+        {getSearchResult().map((it) => (<TodoItem key={it.id}  {...it}
+          onUpdate={onUpdate}
+          onDelete={onDelete} />))}
       </div>
     </div>
   );

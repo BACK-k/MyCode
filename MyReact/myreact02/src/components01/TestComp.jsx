@@ -60,6 +60,7 @@ function TestComp() {
         <h3>** useReducer Test2 **</h3>
         <h4>{count}</h4>
         <div>
+          {/* dispatch : myreducer의 action에 타입과 data를 전달하는 역할 */}
           <button onClick={ () => mydispatch({type:"Increase", data:1}) }>+</button>
           <button onClick={ () => mydispatch({type:"Decrease", data:1}) }>-</button>
           <button onClick={ () => mydispatch({type:"Init"}) }>0으로 초기화</button>
