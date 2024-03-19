@@ -5,10 +5,11 @@
 //    Context 로 전달받는 Data는 필요 없으므로 삭제  
 
 import "./TodoItem.css";
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { TodoContext } from "../App04";
- 
-const TodoItem = ({id, isDone, content, createDate}) => {
+
+// 객체구조분해
+const TodoItem = ({ id, isDone, content, createDate }) => {
 
   // ** Context 적용
   // => 적용후 최적화 기능 점검
@@ -23,14 +24,14 @@ const TodoItem = ({id, isDone, content, createDate}) => {
 
   // => 최적화 (React.memo 적용) 전/후 출력 비교
   console.log(`** TodoItem Update id=${id} **`);
-  return(
+  return (
     <div className="TodoItem">
       <div>
         <input type="checkbox" checked={isDone} onChange={onChangeCheckbox} />
       </div>
       <div className="title_col">{content}</div>
       <div className="date_col">
-        { new Date(createDate).toLocaleDateString() }  
+        {new Date(createDate).toLocaleDateString()}
         {/* 타임스템프 형식을 Date 형식으로 변환하고, 
             toLocaleDateString() 을 적용하여 문자열 로 랜더링 */}
       </div>
@@ -42,5 +43,6 @@ const TodoItem = ({id, isDone, content, createDate}) => {
     </div>
   );
 }; //TodoItem
- 
-export default  React.memo(TodoItem);
+
+// Context에 속해져있어 memo보다 Provider가 우선시되어 렌더링이 됨
+export default React.memo(TodoItem);

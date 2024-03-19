@@ -1,4 +1,4 @@
-// ** Context 적용
+// ** Context 적용, 사용자 측
 // => Context가 공급하는 Data 사용하기
 //    - useContext(Context)
 //      인자는 Data를 공급할 Context 이고, 
@@ -14,13 +14,15 @@ import "./TodoEditor.css";
 import { useState, useRef, useContext } from "react";
 import { TodoContext } from "../App04";
 
+// props로 전달받은 인자들을 정의할 필요가 없음
 const TodoEditor = () => {
 
   // ** Context 적용
   // => import : useContext, TodoContext
   // => useContext(TodoContext) 정의
   // => Props 전달은 필요없으므로 삭제
-  const {onCreate} = useContext(TodoContext);
+  // TodoContext에서 onCreat만 사용
+  const { onCreate } = useContext(TodoContext);
 
   const [content, setContent] = useState("");
   // => new 일정 처리할  onChangeContent 이벤트 핸들러 
@@ -37,7 +39,7 @@ const TodoEditor = () => {
     //    content 값이 비어있으면 input 에 focus 가 머물게 하여
     //    빈 Data 입력방지 기능
     // if (content === "") {
-    if (!content)  { // content 가 비어있으면 
+    if (!content) { // content 가 비어있으면 
       e.preventDefault();
       inputRef.current.focus();
       return;
@@ -57,14 +59,14 @@ const TodoEditor = () => {
     <div className="TodoEditor">
       <h4>새로운 Todo 작성하기 🖋🖍</h4>
       <div className="editor_wrapper">
-        <input  ref={inputRef}
-                value={content} 
-                onChange={onChangeContent}
-                onKeyDown={onKeyDown}
-                placeholder="새로운 일정 입력하세요..."  />
+        <input ref={inputRef}
+          value={content}
+          onChange={onChangeContent}
+          onKeyDown={onKeyDown}
+          placeholder="새로운 일정 입력하세요..." />
         <button onClick={onSubmit} >추가</button>
       </div>
     </div>
-  );  
+  );
 }; //TodoEditor
 export default TodoEditor

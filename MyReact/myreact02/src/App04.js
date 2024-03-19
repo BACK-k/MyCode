@@ -52,46 +52,51 @@ import { useCallback } from 'react';
 
 // ** Mock Data
 const mockTodo = [
-{ id: 0,
-  isDone: false,
-  content: 'React 공부하기',
-  createDate: new Date().getTime()
-},
-{ id: 1,
-  isDone: true,
-  content: 'JavaScript 공부하기',
-  createDate: new Date().getTime()
-},
-{ id: 2,
-  isDone: false,
-  content: 'Java 공부하기',
-  createDate: new Date().getTime()
-},
-{ id: 3,
-  isDone: false,
-  content: 'MySQL 예습하기',
-  createDate: new Date().getTime()
-},
-{ id: 4,
-  isDone: false,
-  content: 'Spring 예습하기',
-  createDate: new Date().getTime()
-}
+  {
+    id: 0,
+    isDone: false,
+    content: 'React 공부하기',
+    createDate: new Date().getTime()
+  },
+  {
+    id: 1,
+    isDone: true,
+    content: 'JavaScript 공부하기',
+    createDate: new Date().getTime()
+  },
+  {
+    id: 2,
+    isDone: false,
+    content: 'Java 공부하기',
+    createDate: new Date().getTime()
+  },
+  {
+    id: 3,
+    isDone: false,
+    content: 'MySQL 예습하기',
+    createDate: new Date().getTime()
+  },
+  {
+    id: 4,
+    isDone: false,
+    content: 'Spring 예습하기',
+    createDate: new Date().getTime()
+  }
 ]
 // ** useReducer 적용
 function reducer(state, action) {
   switch (action.type) {
-    case "Create" : { return [action.newItem, ...state] }
-    case "Update" : { 
-        return state.map( (it) => 
-        it.id === action.targetId ? 
-        { ...it, isDone: !it.isDone } : it );
-      }
-    case "Delete" : {  
-        return state.filter( (it) => it.id !== action.targetId );
-      }
+    case "Create": { return [action.newItem, ...state] }
+    case "Update": {
+      return state.map((it) =>
+        it.id === action.targetId ?
+          { ...it, isDone: !it.isDone } : it);
+    }
+    case "Delete": {
+      return state.filter((it) => it.id !== action.targetId);
+    }
     default: return state;
-  } ; //switch
+  }; //switch
 } //reducer
 
 // ** Context 적용 1단계
@@ -100,36 +105,39 @@ function reducer(state, action) {
 // => 외부문서 (Context에 소속된 컴포넌트들) 에서 인식 가능 하도록 export 해야함.
 // => React.createContext(default_value)
 //    이때 인자 default_value 는 생성시 적절한 Provider를 찾지못했을때만 사용되는값 
+
+// TodoContext는 식별자(사용자임의이름)
 export const TodoContext = React.createContext();
 
 function App() {
-  
+
   // ** useReducer 로
   const [todo, dispatch] = useReducer(reducer, mockTodo);
   const idRef = useRef(mockTodo.length);
 
   // ** 일정추가 (Create) 함수 생성
   const onCreate = (content) => {
-    dispatch({ type:"Create",
-               newItem: {
-                  id: idRef.current,
-                  content: content,
-                  isDone: false,
-                  createDate: new Date().getTime()
-               }
+    dispatch({
+      type: "Create",
+      newItem: {
+        id: idRef.current,
+        content: content,
+        isDone: false,
+        createDate: new Date().getTime()
+      }
     }); //dispatch
-    idRef.current +=1;
+    idRef.current += 1;
   }; //onCreate ( useCallback 을 적용하지않음 )
 
   // ** 일정 수정
-  const onUpdate = useCallback( (targetId) => {
-      dispatch({ type:"Update", targetId }); //dispatch   
-    }, [] );
+  const onUpdate = useCallback((targetId) => {
+    dispatch({ type: "Update", targetId }); //dispatch   
+  }, []);
 
   // ** 일정 삭제 
-  const onDelete = useCallback( (targetId) => {
-    dispatch({ type:"Delete", targetId }); //dispatch 
-  }, [] );
+  const onDelete = useCallback((targetId) => {
+    dispatch({ type: "Delete", targetId }); //dispatch 
+  }, []);
 
   console.log("** App Update !! **");
   return (
@@ -144,7 +152,10 @@ function App() {
            기존의 Props는 제거한다.   
       3) Data 사용하기
         => Data를 공급받는 컴포넌트에서는 useContext() 를 이용해 사용가능.  
-        */} 
+        */}
+
+      {/* Context 객체를 생성해 Provider로 감싸줌
+      영향권 안에 있는 컴포넌트들에게 데이터를 전달함, 더이상 props가 필요하지 않음 */}
       <TodoContext.Provider value={{ todo, onCreate, onUpdate, onDelete }}>
         <TodoEditor />
         <TodoList />
