@@ -12,15 +12,13 @@
 
 import "./TodoEditor.css";
 import { useState, useRef, useContext } from "react";
-import { TodoContext } from "../App04";
+import { TodoDispatchContext } from "../App";
 
 const TodoEditor = () => {
 
-  // ** Context 적용
-  // => import : useContext, TodoContext
-  // => useContext(TodoContext) 정의
-  // => Props 전달은 필요없으므로 삭제
-  const {onCreate} = useContext(TodoContext);
+  // ** Context 적용 2
+  // => 용도에 맞는 Context 적용
+  const {onCreate} = useContext(TodoDispatchContext);
 
   const [content, setContent] = useState("");
   // => new 일정 처리할  onChangeContent 이벤트 핸들러 

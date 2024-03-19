@@ -1,26 +1,13 @@
-// ** Context 적용
-// => Context가 공급하는 Data 사용하기
-//    - useContext(Context)
-//      인자는 Data를 공급할 Context 이고, 
-//      이 Context 가 제공하는 Data 객체를 return 함.  
 
 // ** 3.2) 입력 (Create)
 // => new 일정(content) 을 담을 state 생성
 // => new 일정 처리할  onChangeContent 이벤트 핸들러 작성
 // => input 엘리먼트 속성 지정
 
-
+import { useState, useRef } from "react";
 import "./TodoEditor.css";
-import { useState, useRef, useContext } from "react";
-import { TodoContext } from "../App04";
 
-const TodoEditor = () => {
-
-  // ** Context 적용
-  // => import : useContext, TodoContext
-  // => useContext(TodoContext) 정의
-  // => Props 전달은 필요없으므로 삭제
-  const {onCreate} = useContext(TodoContext);
+const TodoEditor = ({onCreate}) => {
 
   const [content, setContent] = useState("");
   // => new 일정 처리할  onChangeContent 이벤트 핸들러 

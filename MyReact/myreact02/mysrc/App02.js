@@ -22,46 +22,50 @@ import { useReducer, useState, useRef } from "react";
 
 // 2. Mock Data
 const mockTodo = [
-{
-  isDone: false,
-  content: 'React 공부하기',
-  createDate: new Date().getTime()
-},
-{ id: 1,
-  isDone: true,
-  content: 'JavaScript 공부하기',
-  createDate: new Date().getTime()
-},
-{ id: 2,
-  isDone: false,
-  content: 'Java 공부하기',
-  createDate: new Date().getTime()
-},
-{ id: 3,
-  isDone: false,
-  content: 'MySQL 예습하기',
-  createDate: new Date().getTime()
-},
-{ id: 4,
-  isDone: false,
-  content: 'Spring 예습하기',
-  createDate: new Date().getTime()
-}
+  {
+    isDone: false,
+    content: 'React 공부하기',
+    createDate: new Date().getTime()
+  },
+  {
+    id: 1,
+    isDone: true,
+    content: 'JavaScript 공부하기',
+    createDate: new Date().getTime()
+  },
+  {
+    id: 2,
+    isDone: false,
+    content: 'Java 공부하기',
+    createDate: new Date().getTime()
+  },
+  {
+    id: 3,
+    isDone: false,
+    content: 'MySQL 예습하기',
+    createDate: new Date().getTime()
+  },
+  {
+    id: 4,
+    isDone: false,
+    content: 'Spring 예습하기',
+    createDate: new Date().getTime()
+  }
 ]
 // ** useReducer 적용
 function reducer(state, action) {
   switch (action.type) {
-    case "Create" : { return [action.newItem, ...state] }
-    case "Update" : { 
-        return state.map( (it) => 
-        it.id === action.targetId ? 
-        { ...it, isDone: !it.isDone } : it );
-      }
-    case "Delete" : {  
-        return state.filter( (it) => it.id !== action.targetId );
-      }
+    case "Create": { return [action.newItem, ...state] }
+    case "Update": {
+      return state.map((it) =>
+        it.id === action.targetId ?
+          { ...it, isDone: !it.isDone } : it);
+    }
+    case "Delete": {
+      return state.filter((it) => it.id !== action.targetId);
+    }
     default: return state;
-  } ; //switch
+  }; //switch
 } //reducer
 
 function App() {
@@ -80,28 +84,29 @@ function App() {
   // => 상태값 변경부분을 reducer() 에게 맡기고, 이를위해
   //    dispatch 호출해서 action(type, data) 값을 전달해주어야함
   const onCreate = (content) => {
-    dispatch({ type:"Create",
-               newItem: {
-                  id: idRef.current,
-                  content: content,
-                  isDone: false,
-                  createDate: new Date().getTime()
-               }
+    dispatch({
+      type: "Create",
+      newItem: {
+        id: idRef.current,
+        content: content,
+        isDone: false,
+        createDate: new Date().getTime()
+      }
     }); //dispatch
     //setTodo([newItem, ...todo]); => reducer() 에게 맡김
-    idRef.current +=1;
+    idRef.current += 1;
   }; //onCreate
 
   // ==============================================
   // 3.3) 일정 수정
   const onUpdate = (targetId) => {
-    dispatch({ type:"Update", targetId }); //dispatch   
+    dispatch({ type: "Update", targetId }); //dispatch   
   }
   // 3.4) 일정 삭제 
   const onDelete = (targetId) => {
-    dispatch({ type:"Delete", targetId }); //dispatch 
+    dispatch({ type: "Delete", targetId }); //dispatch 
   }
- 
+
   return (
     <div className="App">
       <TestComp />
@@ -109,7 +114,8 @@ function App() {
       <TodoEditor onCreate={onCreate} />
       <TodoList todo={todo} onUpdate={onUpdate} onDelete={onDelete} />
     </div>
-    
+
+
   );
 }
 

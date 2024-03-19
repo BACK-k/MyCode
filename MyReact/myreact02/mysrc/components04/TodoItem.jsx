@@ -6,7 +6,7 @@
 
 import "./TodoItem.css";
 import React, {useContext} from "react";
-import { TodoContext } from "../App04";
+import { TodoContext } from "../App";
  
 const TodoItem = ({id, isDone, content, createDate}) => {
 

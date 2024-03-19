@@ -16,20 +16,10 @@
 // ** useMemo()
 // => 함수의 불필요한 재실행 방지
 // => 메모이제이션(Memoization) 기법을 이용해 연산의 결과값을
-//    기억해 두었다가 필요할때 사용함으로 불필요한 함수호출을 줄여주는 훅.  
+//    기억헤 두었다가 필요할때 사용함으로 불필요한 함수호출을 줄여주는 훅.  
 // => const value = useMemo(callback, [의존성배열]);
-//    의존성배열의 값이 바뀌면 callback 함수를 실행하고 결과값 return
+//    의존성배열 의 값이 바뀌면 callback 함수를 실행하고 결과값 return
 // => TodoList 컴포넌트에 analyzeTodo 함수 추가 하고 Test
-
-// => useEffect 와 비교하기  ( 아래 비교예제 참고 )
-//  -> useEffect(callback_함수, [deps]_의존성 배열)
-//    두번째 인자인 의존성 배열요소의 값이 변경되면 첫번째 인자인 콜백함수를 실행함 
-//    ( 결과를 return 하지않음 )
-
-//  -> useMemo() 와 useEffect() 차이점  
-//    - useMemo는 랜더링 직전 실행, useEffect는 랜더링 직후 실행
-//    - useMemo는 callback함수 결과값 return, useEffect는 결과 return 하지않음
-//    - useMemo는 함수 최적화용, useEffect는 side effect (예_서버에서 Data 가져오기 등, myreact01_App03 참고) 수행
 
 // ** useCallback()
 // => 함수의 불필요한 재생성 방지
@@ -55,7 +45,7 @@
 //    const comp = React.memo(() => {....})
 
 // => 고차 컴포넌트 (HOC: High Order Component)
-//    컴포넌트 기능을 재사용 하기위한 리액트 고급기술 
+//    컴포넌트 기능을 재사용 하기위한 리액트 고급기슬 
 //    인자로 전달된 컴포넌트에 새로운 기능을 추가해 
 //    더욱 강화된 컴포넌트를 return 하는 컴포넌트(함수) 를 말하며
 //    이때 return 되는 강화된 컴포넌트를 Enhanced(강화된, 향상된) Component 라함.   
@@ -70,71 +60,77 @@ import './App.css';
 import Header from './components01/Header';
 import TodoEditor from './components01/TodoEditor';
 import TodoList from './components01/TodoList';
-import { useReducer, useState, useRef, useEffect, useMemo } from "react";
+import { useReducer, useState, useRef } from "react";
 import { useCallback } from 'react';
 
 // 2. Mock Data
 const mockTodo = [
-{ id: 0,
-  isDone: false,
-  content: 'React 공부하기',
-  createDate: new Date().getTime()
-},
-{ id: 1,
-  isDone: true,
-  content: 'JavaScript 공부하기',
-  createDate: new Date().getTime()
-},
-{ id: 2,
-  isDone: false,
-  content: 'Java 공부하기',
-  createDate: new Date().getTime()
-},
-{ id: 3,
-  isDone: false,
-  content: 'MySQL 예습하기',
-  createDate: new Date().getTime()
-},
-{ id: 4,
-  isDone: false,
-  content: 'Spring 예습하기',
-  createDate: new Date().getTime()
-}
+  {
+    id: 0,
+    isDone: false,
+    content: 'React 공부하기',
+    createDate: new Date().getTime()
+  },
+  {
+    id: 1,
+    isDone: true,
+    content: 'JavaScript 공부하기',
+    createDate: new Date().getTime()
+  },
+  {
+    id: 2,
+    isDone: false,
+    content: 'Java 공부하기',
+    createDate: new Date().getTime()
+  },
+  {
+    id: 3,
+    isDone: false,
+    content: 'MySQL 예습하기',
+    createDate: new Date().getTime()
+  },
+  {
+    id: 4,
+    isDone: false,
+    content: 'Spring 예습하기',
+    createDate: new Date().getTime()
+  }
 ]
 
 function reducer(state, action) {
   switch (action.type) {
-    case "Create" : { return [action.newItem, ...state] }
-    case "Update" : { 
-        return state.map( (it) => 
-        it.id === action.targetId ? 
-        { ...it, isDone: !it.isDone } : it );
-      }
-    case "Delete" : {  
-        return state.filter( (it) => it.id !== action.targetId );
-      }
+    case "Create": { return [action.newItem, ...state] }
+    case "Update": {
+      return state.map((it) =>
+        it.id === action.targetId ?
+          { ...it, isDone: !it.isDone } : it);
+    }
+    case "Delete": {
+      return state.filter((it) => it.id !== action.targetId);
+    }
     default: return state;
-  } ; //switch
+  }; //switch
 } //reducer
 
 function App() {
-  
+
   // *** => useReducer 로
   const [todo, dispatch] = useReducer(reducer, mockTodo);
   const idRef = useRef(mockTodo.length);
 
   // ** 일정추가 (Create) 함수 생성
   const onCreate = (content) => {
-    dispatch({ type:"Create",
-               newItem: {
-                  id: idRef.current,
-                  content: content,
-                  isDone: false,
-                  createDate: new Date().getTime()
-               }
+    dispatch({
+      type: "Create",
+      newItem: {
+        id: idRef.current,
+        content: content,
+        isDone: false,
+        createDate: new Date().getTime()
+      }
     }); //dispatch
-    idRef.current +=1;
-    console.log("** onCreate , todo.length => "+todo.length);
+    idRef.current += 1;
+    console.log("** onCreate , todo.length => " + todo.length);
     // => useCallback 을 적용하지않으므로 
     //    일정을 추가할때 마다 App 컴포넌트 리랜더링 되면서, 내부의 함수도 재생성되면서
     //    변경된 State 변수값에 접근하여 정확한 길이를 출력함.
@@ -152,26 +148,22 @@ function App() {
   //    비어있는 배열을 전달하면 callback 함수는 마운트시에만 생성되고, 이후에는 재생성 되지않음
 
   // ** 일정 수정
-  const onUpdate = useCallback( (targetId) => {
-      dispatch({ type:"Update", targetId }); //dispatch   
-      console.log("** onUpdate_useCallback, todo.length => "+todo.length);
-      // => useCallback 의 첫번째 인자인 콜백함수는 일정이 추가되어도 
-      //    최초 생성시의 전달받은 State 변수값(todo.length 값 5)) 만 가지고 있음을 확인해본다. 
-      //    ( 새로운 State 변수값 접근불가 )  
-      //    반면에 useCallback 을 적용하지않은 onCreate 는 
-      //    일정을 추가할때 마다 새로운 State 변수값에 접근하여 정확한 길이를 출력함.
-    }, [] );
+  const onUpdate = useCallback((targetId) => {
+    dispatch({ type: "Update", targetId }); //dispatch   
+    console.log("** onUpdate_useCallback, todo.length => " + todo.length);
+    // => useCallback 의 첫번째 인자인 콜백함수는 일정이 추가되어도 
+    //    최초 생성시의 전달받은 State 변수값(todo.length 값 5)) 만 가지고 있음을 확인해본다. 
+    //    ( 새로운 State 변수값 접근불가 )  
+    //    반면에 useCallback 을 적용하지않은 onCreate 는 
+    //    일정을 추가할때 마다 새로운 State 변수값에 접근하여 정확한 길이를 출력함.
+  }, []);
 
   // ** 일정 삭제 
-  const onDelete = useCallback( (targetId) => {
-    dispatch({ type:"Delete", targetId }); //dispatch 
-  }, [] );
+  const onDelete = useCallback((targetId) => {
+    dispatch({ type: "Delete", targetId }); //dispatch 
+  }, []);
 
-  // ** useMemo 와 useEffect 와 호출시점 비교예제 
-  useMemo(() => { console.log("** useMemo Call !!!"); }, []); //1st
-  console.log("** App Update !! **");  //2nd
-  useEffect(() => { console.log("** useEffect Call !!!"); }, []); //3rd (랜더링후)
-
+  console.log("** App Update !! **");
   return (
     <div className="App">
       {/* <TestComp /> */}
