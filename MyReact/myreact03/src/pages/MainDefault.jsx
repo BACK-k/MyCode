@@ -3,7 +3,7 @@ import '../styles/Main.css';
 
 function MainDefault() {
     return (
-        <div>
+        <div className='body_container'>
             <hr></hr>
             <h3>~~ Main 영역 ~~</h3>
             <div id="contents">

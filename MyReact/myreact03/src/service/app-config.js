@@ -1,8 +1,7 @@
 let backendHost;
 
-// &&를 and로도 활용하지만, 값을 할당하기 위해 사용하기도 함
-// => 모두 true면 (존재하면) 가장 우측의 값이 할당됨
 const hostname = window && window.location && window.location.hostname;
+// => 모두 true면 (존재하면) 가장 우측의 값이 할당됨
 
 // ** && 활용
 // => 논리 AND 연산자
